@@ -23,4 +23,4 @@ class AppSettings(object):
         return self._setting('SETTINGS_BLANK_HOSTNAME_IS_DEFAULT', True)
 
 
-app_settings = AppSettings('IARPUTILS_DJANGOUTILS_')
+app_settings = AppSettings('IARPDJANGOUTILS_')
