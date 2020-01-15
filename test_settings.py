@@ -15,6 +15,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'iarp_django_utils',
+    'tests',
 ]
 
 MIDDLEWARE = [
