@@ -14,9 +14,15 @@ def endswith(text, value):
 
 @register.filter
 def truncatesentences(value, arg):
-    """
-    Truncate HTML after `arg` number of words.
-    Preserve newlines in the HTML.
+    """ Splits on newline characters and returns however many sentences you wish.
+
+    Examples:
+
+        {{ myvar|truncatesentences:3 }}
+
+    Args:
+        value: the value to work on
+        arg: how many sentences to return
     """
     try:
         length = int(arg)
@@ -27,7 +33,10 @@ def truncatesentences(value, arg):
     for index, line in enumerate(value.split('\n')):
         if index >= length:
             break
+
+        # If the line is blank, do not count it as a sentence
         if not line:
             length += 1
+
         lines.append(line)
     return '\n'.join(lines)

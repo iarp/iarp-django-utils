@@ -9,7 +9,7 @@ def posted_or_default(context, name, default='', prepend_name='', *args, **kwarg
     Returns the posted value if it exists, otherwise returns default
     """
     if prepend_name:
-        name = '{}_{}'.format(prepend_name, name)
+        name = f'{prepend_name}_{name}'
     return context.request.POST.get(name, default)
 
 
@@ -29,7 +29,7 @@ def only_when_posted(context, name, value, ret_val, prepend_name='', *args, **kw
         :prepend_name: Value to prepend onto name with an underscore i.e a player id 12412_Goals
     """
     if prepend_name:
-        name = '{}_{}'.format(prepend_name, name)
+        name = f'{prepend_name}_{name}'
     if isinstance(value, int):
         value = str(value)
     return ret_val if context.request.method == 'POST' and context.request.POST.get(name) == value else ''
@@ -56,7 +56,7 @@ def posted_or_not_posted(context, posted_name, posted_value, cval1, cval2, ret_v
     """
 
     if prepend_name:
-        posted_name = '{}_{}'.format(prepend_name, posted_name)
+        posted_name = f'{prepend_name}_{posted_name}'
 
     try:
         posted_value = int(posted_value)
