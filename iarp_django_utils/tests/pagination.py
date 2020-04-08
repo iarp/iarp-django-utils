@@ -205,3 +205,22 @@ class PaginationHelperTests(TestCase):
             }
         )
         self.assertEqual(15, output['page_obj'].number)
+
+    def test_pagination_last_first_true(self):
+
+        output = paginator_helper(
+            context_key='object_list_key',
+            queryset=TestModel.objects.all().order_by('id'),
+            limit=2,
+            last_first=True
+        )
+        self.assertEqual(50, output['page_obj'].number)
+
+        output = paginator_helper(
+            context_key='object_list_key',
+            queryset=TestModel.objects.all().order_by('id'),
+            limit=2,
+            requested_page=7,
+            last_first=True
+        )
+        self.assertEqual(7, output['page_obj'].number)

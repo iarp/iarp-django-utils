@@ -6,7 +6,8 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 def paginator_helper(context_key, queryset, requested_page=None, limit=None, params=None,
                      page_url_param=getattr(settings, 'PAGINATION_PAGE_PARAM', 'page'),
-                     limit_url_param=getattr(settings, 'PAGINATION_LIMIT_PARAM', 'limit'), **kwargs):
+                     limit_url_param=getattr(settings, 'PAGINATION_LIMIT_PARAM', 'limit'),
+                     last_first=getattr(settings, 'PAGINATION_LAST_FIRST', False), **kwargs):
     """ Builds and supports the custom pagination system this system uses.
 
     Examples:
@@ -46,6 +47,8 @@ def paginator_helper(context_key, queryset, requested_page=None, limit=None, par
             pertains to the page being loaded.
         limit_url_param: The param to be found in params that
             pertains to the number of items returned per page.
+        last_first: Whether or not to load the first or last page
+            when no page param is given.
 
     Returns:
         dict of data to be added to the templates context for pagination purposes.
@@ -54,10 +57,14 @@ def paginator_helper(context_key, queryset, requested_page=None, limit=None, par
         params = {}
     if page_url_param and page_url_param in params:
         requested_page = params[page_url_param]
+        last_first = False
     if limit_url_param and limit_url_param in params:
         limit = params[limit_url_param]
 
-    requested_page = requested_page or 1
+    if last_first and requested_page is None:
+        requested_page = -1
+    else:
+        requested_page = requested_page or 1
 
     paginator = Paginator(
         object_list=queryset,
@@ -70,7 +77,7 @@ def paginator_helper(context_key, queryset, requested_page=None, limit=None, par
     except (EmptyPage, PageNotAnInteger):
         try:
             requested_page = int(requested_page)
-            if requested_page > paginator.num_pages:
+            if requested_page == -1 or requested_page > paginator.num_pages:
                 requested_page = paginator.num_pages
             elif requested_page <= 0:
                 raise ValueError
