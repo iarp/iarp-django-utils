@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='iarp_django_utils',
-    version='0.0.1',
+    version='0.0.5',
     description='A personal collection of common django utilities used in various projects',
     url='https://bitbucket.org/iarp/iarp-django-utils/',
     author='IARP',
