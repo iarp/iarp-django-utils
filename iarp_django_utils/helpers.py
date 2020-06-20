@@ -1,3 +1,5 @@
+from iarp_django_utils.app_settings import app_settings
+
 
 def only_save_changed_data(obj, obj_data: dict, not_these_fields=None, not_these_fields_startswith=None, save=True):
     """ Only save obj where data found in obj_data does not match data within obj.
@@ -55,3 +57,16 @@ def only_save_changed_data(obj, obj_data: dict, not_these_fields=None, not_these
         obj.save(update_fields=changed)
 
     return changed
+
+
+def get_app_name_for_queryset_filter():
+    return get_param_name_for_queryset_filter('app')
+
+
+def get_name_name_for_queryset_filter():
+    return get_param_name_for_queryset_filter('name')
+
+
+def get_param_name_for_queryset_filter(key: str):
+    val = getattr(app_settings, f'SETTINGS_CASE_SENSITIVE_{key.upper()}')
+    return key if val else f'{key}__iexact'

@@ -8,6 +8,7 @@ from django.db import models
 from iarp_utils.datetimes import fromisoformat
 from iarp_utils.strings import startswith_many
 from .app_settings import app_settings
+from iarp_django_utils import helpers
 
 
 class BaseSetting(models.Model):
@@ -68,8 +69,17 @@ class BaseSetting(models.Model):
 
         hostname = cls._get_hostname(**kwargs)
 
+        app_key = helpers.get_app_name_for_queryset_filter()
+        name_key = helpers.get_name_name_for_queryset_filter()
+
+        query_params = {
+            app_key: app,
+            name_key: name,
+            'hostname': hostname,
+        }
+
         try:
-            s = cls.objects.get(app=app, name=name, hostname=hostname)
+            s = cls.objects.get(**query_params)
         except cls.DoesNotExist:
 
             # If the setting for this specific hostname was not found, look for a default which
@@ -77,7 +87,7 @@ class BaseSetting(models.Model):
             if hostname and default is None and app_settings.SETTINGS_BLANK_HOSTNAME_IS_DEFAULT:
 
                 try:
-                    s = cls.objects.get(app=app, name=name, hostname='')
+                    s = cls.objects.get(**query_params)
                 except cls.DoesNotExist:
                     s = None
                 except cls.MultipleObjectsReturned:

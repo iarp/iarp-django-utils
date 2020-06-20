@@ -22,5 +22,13 @@ class AppSettings(object):
         """
         return self._setting('SETTINGS_BLANK_HOSTNAME_IS_DEFAULT', True)
 
+    @property
+    def SETTINGS_CASE_SENSITIVE_NAME(self):
+        return self._setting('SETTINGS_CASE_SENSITIVE_NAME', True)
+
+    @property
+    def SETTINGS_CASE_SENSITIVE_APP(self):
+        return self._setting('SETTINGS_CASE_SENSITIVE_APP', True)
+
 
 app_settings = AppSettings('IARPDJANGOUTILS_')
