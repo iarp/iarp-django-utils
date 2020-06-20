@@ -25,6 +25,9 @@ class BaseSetting(models.Model):
     inserted = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return f'{self.app}.{self.name}={self.value}'
+
     @staticmethod
     def _get_hostname(system_specific=False, hostname=''):
 
@@ -149,7 +152,8 @@ class BaseSetting(models.Model):
             if not obj or obj.value != value:
                 value = cls._encode_value(value)
 
-        cls.objects.update_or_create(app=app, name=name, hostname=hostname, defaults={'value': value})
+        s, _ = cls.objects.update_or_create(app=app, name=name, hostname=hostname, defaults={'value': value})
+        return s
 
     @staticmethod
     def _decode_value(value):
