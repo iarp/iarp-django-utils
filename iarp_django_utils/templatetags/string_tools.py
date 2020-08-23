@@ -1,4 +1,3 @@
-from bs4 import BeautifulSoup
 from django.template.defaulttags import register
 
 
@@ -28,7 +27,6 @@ def truncatesentences(value, arg):
         length = int(arg)
     except ValueError:  # invalid literal for int()
         return value  # Fail silently.
-    soup = BeautifulSoup(value, 'html.parser')
     lines = []
     for index, line in enumerate(value.split('\n')):
         if index >= length:

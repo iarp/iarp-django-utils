@@ -1,3 +1,2 @@
 django
 -e git+https://iarp@bitbucket.org/iarp/iarp-python-utils.git#egg=iarp_utils
-beautifulsoup4
