@@ -66,9 +66,11 @@ def paginator_helper(context_key, queryset, requested_page=None, limit=None, par
     else:
         requested_page = requested_page or 1
 
+    default_limit = int(getattr(settings, 'PAGINATION_LIMIT', 15))
+
     paginator = Paginator(
         object_list=queryset,
-        per_page=limit or 15,
+        per_page=limit or default_limit,
         **kwargs
     )
 
