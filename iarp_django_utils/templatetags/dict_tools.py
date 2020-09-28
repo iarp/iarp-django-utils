@@ -32,7 +32,7 @@ def get_dict_value_by_key(dictionary, key):
     """
     try:
         return dictionary.get(key, dictionary.get(str(key)))
-    except:
+    except (AttributeError, KeyError, TypeError, ValueError):
         return None
 
 
@@ -42,5 +42,5 @@ def get_subdict_items_by_key(dictionary, key):
         in this case it returns .items on the subdict"""
     try:
         return dictionary.get(key, dictionary.get(str(key))).items()
-    except:
+    except (AttributeError, KeyError, TypeError, ValueError):
         return None

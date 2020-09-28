@@ -1,4 +1,5 @@
 from iarp_django_utils.app_settings import app_settings
+
 from .base_test_classes import BaseTestClassMethods
 
 

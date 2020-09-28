@@ -1,5 +1,5 @@
-from django.test import TestCase, RequestFactory
 from django.template import RequestContext
+from django.test import RequestFactory, TestCase
 
 from iarp_django_utils.templatetags import request_tools
 
@@ -48,4 +48,3 @@ class RequestToolsTests(TestCase):
 
         data = request_tools.posted_or_not_posted(context, 'test', 'true', '123', '231', 'selected')
         self.assertEqual(data, '')
-

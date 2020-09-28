@@ -1,9 +1,9 @@
 from django.core.paginator import Paginator
-from django.test import TestCase, RequestFactory
-from django.template import RequestContext
+from django.test import RequestFactory, TestCase
 
 from iarp_django_utils.pagination import paginator_helper
 from iarp_django_utils.templatetags import proper_pagination
+
 from .models import TestModel
 
 
@@ -90,7 +90,8 @@ class TemplateTagsProperPaginationTests(TestCase):
             include_last=2,
             include_separator='...'
         )
-        self.assertEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, '...', 49, 50], output)
+        self.assertEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,
+                          14, 15, 16, 17, 18, 19, 20, 21, 22, '...', 49, 50], output)
 
 
 class PaginationHelperTests(TestCase):

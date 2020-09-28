@@ -1,7 +1,7 @@
 import copy
 
 from django.conf import settings
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 
 
 def paginator_helper(context_key, queryset, requested_page=None, limit=None, params=None,

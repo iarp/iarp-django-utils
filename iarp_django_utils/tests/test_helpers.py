@@ -2,7 +2,11 @@ from django.test import TestCase
 from django.test.utils import override_settings
 from django.utils import timezone
 
-from iarp_django_utils.helpers import only_save_changed_data, get_name_name_for_queryset_filter, get_app_name_for_queryset_filter
+from iarp_django_utils.helpers import (
+    get_app_name_for_queryset_filter,
+    get_name_name_for_queryset_filter,
+    only_save_changed_data,
+)
 
 
 class HelperTests(TestCase):

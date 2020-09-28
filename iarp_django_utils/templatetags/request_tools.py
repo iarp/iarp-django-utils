@@ -1,5 +1,6 @@
 from django import template
 
+
 register = template.Library()
 
 
@@ -20,7 +21,8 @@ def only_when_posted(context, name, value, ret_val, prepend_name='', *args, **kw
 
     Usage: ``{% "Played" "yes" "selected" player_id %}``
 
-    Identical to  ``{% if request.method == 'POST' and request.POST['<player_id>_Played'] == "yes" %}selected{%endif%}`` even though this doesn't work in templates as is.
+    Identical to  ``{% if request.method == 'POST' and request.POST['<player_id>_Played'] == "yes" %}selected{%endif%}``
+    even though this doesn't work in templates as is.
 
     Args:
         :name: element Name

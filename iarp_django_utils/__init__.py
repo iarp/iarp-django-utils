@@ -1,6 +1,9 @@
 import os
+
 from django.conf import settings
+
 from iarp_utils import configuration
+
 
 default_app_config = 'iarp_django_utils.apps.IarpDjangoUtilsConfig'
 

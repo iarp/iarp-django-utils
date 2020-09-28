@@ -7,8 +7,10 @@ from django.db import models
 
 from iarp_utils.datetimes import fromisoformat
 from iarp_utils.strings import startswith_many
-from .app_settings import app_settings
+
 from iarp_django_utils import helpers
+
+from .app_settings import app_settings
 
 
 class BaseSetting(models.Model):
@@ -20,7 +22,8 @@ class BaseSetting(models.Model):
 
     app = models.CharField(max_length=255, help_text='Typically the app it belongs to i.e. games')
     name = models.CharField(max_length=255, help_text='Name that corresponds to the value stored i.e. username')
-    hostname = models.CharField(max_length=255, default='', blank=True, help_text='Name of the computer this setting is specific to.')
+    hostname = models.CharField(max_length=255, default='', blank=True,
+                                help_text='Name of the computer this setting is specific to.')
     value = models.TextField(blank=True)
 
     inserted = models.DateTimeField(auto_now_add=True)
@@ -104,7 +107,7 @@ class BaseSetting(models.Model):
         except cls.MultipleObjectsReturned:
             warnings.warn(f'Settings {app}.{name} hm={hostname} returned multiple items!')
             s = cls.objects.filter(app=app, name=name, hostname=hostname).order_by('-last_updated').first()
-        except:
+        except:  # noqa
             return default
 
         value = s.value

@@ -1,5 +1,6 @@
 from django import template
 
+
 register = template.Library()
 
 
@@ -7,7 +8,7 @@ register = template.Library()
 def menu_item_active(context, value, display_hide=False):
     try:
         view_name = context['request'].resolver_match.view_name
-    except:
+    except:  # noqa
         return ''
 
     default = '' if not display_hide else 'display-hide'

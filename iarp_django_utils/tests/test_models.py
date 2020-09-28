@@ -2,9 +2,10 @@ import socket
 
 from django.test.utils import override_settings
 
-from .base_test_classes import BaseTestClassMethods
 from iarp_django_utils.models import BaseSetting
 from iarp_django_utils.tests.models import Setting
+
+from .base_test_classes import BaseTestClassMethods
 
 
 class GeneralTests(BaseTestClassMethods):
@@ -50,8 +51,6 @@ class SettingsModelTests(BaseTestClassMethods):
         returned_value = Setting.get_value('tests.name2')
         self.assertEqual(expected_value, returned_value)
 
-    #### APP ####
-
     @override_settings(IARPDJANGOUTILS_SETTINGS_CASE_SENSITIVE_APP=False)
     def test_case_insensitive_app_get_value(self):
         expected_value = 'here in tests'
@@ -70,10 +69,8 @@ class SettingsModelTests(BaseTestClassMethods):
         returned_value = Setting.get_value('tests.name2')
         self.assertEqual(expected_value, returned_value)
 
-    #### NAME ####
-
     @override_settings(IARPDJANGOUTILS_SETTINGS_CASE_SENSITIVE_NAME=False)
-    def test_case_insensitive_name_get_value(self):
+    def test_case_sensitive_name_get_value(self):
         expected_value = 'here in tests'
         Setting.set_value('tests.name2', value=expected_value)
         returned_value = Setting.get_value('tests.NAME2')

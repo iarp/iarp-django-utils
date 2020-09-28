@@ -1,4 +1,5 @@
 from django.db import models
+
 from iarp_django_utils.models import BaseSetting
 
 

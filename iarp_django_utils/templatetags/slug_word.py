@@ -1,4 +1,5 @@
 from django.template.defaulttags import register
+
 from iarp_utils.strings import slugify
 
 
