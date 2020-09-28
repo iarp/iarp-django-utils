@@ -3,15 +3,15 @@
 {% if is_paginated %}
     <ul class="pagination list-inline justify-content-center">
         {% if page_obj.number != 1 %}
-            <li class="list-inline-item"><a href="{{ pagination_base_url|default:"?" }}{{ page_url_param|default:"page" }}=1{{ url_extra }}" class="{{ pagination_button_classes }}">&#8249;&#8249; First</a></li>
+            <li class="list-inline-item"><a href="{{ pagination_base_url|default:"?" }}{{ page_url_param|default:"page" }}=1{{ url_extra }}" class="{{ pagination_button_classes|default:"btn btn-sm btn-secondary" }}">&#8249;&#8249; First</a></li>
         {% else %}
-            <li class="list-inline-item"><a href="javascript:;" class="{{ pagination_button_classes }} disabled">&#8249;&#8249; First</a></li>
+            <li class="list-inline-item"><a href="javascript:;" class="{{ pagination_button_classes|default:"btn btn-sm btn-secondary" }} disabled">&#8249;&#8249; First</a></li>
         {% endif %}
 
         {% if page_obj.has_previous %}
-            <li class="list-inline-item"><a href="{{ pagination_base_url|default:"?" }}{{ page_url_param|default:"page" }}={{ page_obj.previous_page_number }}{{ url_extra }}" class="{{ pagination_button_classes }}">&#8249; Prev</a></li>
+            <li class="list-inline-item"><a href="{{ pagination_base_url|default:"?" }}{{ page_url_param|default:"page" }}={{ page_obj.previous_page_number }}{{ url_extra }}" class="{{ pagination_button_classes|default:"btn btn-sm btn-secondary" }}">&#8249; Prev</a></li>
         {% else %}
-            <li class="list-inline-item"><a href="javascript:;" class="{{ pagination_button_classes }} disabled">&#8249; Prev</a></li>
+            <li class="list-inline-item"><a href="javascript:;" class="{{ pagination_button_classes|default:"btn btn-sm btn-secondary" }} disabled">&#8249; Prev</a></li>
         {% endif %}
 
         {% proper_pagination paginator page_obj.number pagination_neighbors|default:4 pagination_include_first|default:0 pagination_include_last|default:0 pagination_include_separator|default:"" as pagination_results %}
@@ -26,19 +26,19 @@
         {% endfor %}
 
         {% if page_obj.has_next %}
-            <li class="list-inline-item"><a href="{{ pagination_base_url|default:"?" }}{{ page_url_param|default:"page" }}={{ page_obj.next_page_number }}{{ url_extra }}" class="{{ pagination_button_classes }}">Next &#8250;</a></li>
+            <li class="list-inline-item"><a href="{{ pagination_base_url|default:"?" }}{{ page_url_param|default:"page" }}={{ page_obj.next_page_number }}{{ url_extra }}" class="{{ pagination_button_classes|default:"btn btn-sm btn-secondary" }}">Next &#8250;</a></li>
         {% else %}
-            <li class="list-inline-item"><a href="javascript:;" class="{{ pagination_button_classes }} disabled">Next &#8250;</a></li>
+            <li class="list-inline-item"><a href="javascript:;" class="{{ pagination_button_classes|default:"btn btn-sm btn-secondary" }} disabled">Next &#8250;</a></li>
         {% endif %}
 
         {% if page_obj.number != paginator.num_pages %}
             <li class="list-inline-item">
-                <a href="{{ pagination_base_url|default:"?" }}{{ page_url_param|default:"page" }}={{ paginator.num_pages }}{{ url_extra }}" class="{{ pagination_button_classes }}">
+                <a href="{{ pagination_base_url|default:"?" }}{{ page_url_param|default:"page" }}={{ paginator.num_pages }}{{ url_extra }}" class="{{ pagination_button_classes|default:"btn btn-sm btn-secondary" }}">
                     Last {% if pagination_include_last_page_in_last_button|default:True %}({{ paginator.num_pages }}){% endif %} &#8250;&#8250;
                 </a>
             </li>
         {% else %}
-            <li class="list-inline-item"><a href="javascript:;" class="{{ pagination_button_classes }} disabled">Last ({{ paginator.num_pages }}) &#8250;&#8250;</a></li>
+            <li class="list-inline-item"><a href="javascript:;" class="{{ pagination_button_classes|default:"btn btn-sm btn-secondary" }} disabled">Last ({{ paginator.num_pages }}) &#8250;&#8250;</a></li>
         {% endif %}
     </ul>
 {% endif %}
