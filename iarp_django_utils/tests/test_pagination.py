@@ -18,14 +18,14 @@ class TemplateTagsProperPaginationTests(TestCase):
             paginator=Paginator(TestModel.objects.all().order_by('id'), 10),
             current_page=1
         )
-        self.assertEqual(range(1, 11), output)
+        self.assertEqual([1, 2, 3, 4, 5, 6, 7, 8, 9], output)
 
     def test_default_pagination_settings_with_high_number_of_pages(self):
         output = proper_pagination.proper_pagination(
             paginator=Paginator(TestModel.objects.all().order_by('id'), 2),
             current_page=8
         )
-        self.assertEqual([3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], output)
+        self.assertEqual([4, 5, 6, 7, 8, 9, 10, 11, 12], output)
 
     def test_default_pagination_settings_with_large_neighbors(self):
         output = proper_pagination.proper_pagination(
@@ -41,7 +41,7 @@ class TemplateTagsProperPaginationTests(TestCase):
             current_page=12,
             include_first=2,
         )
-        self.assertEqual([1, 2, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17], output)
+        self.assertEqual([1, 2, 8, 9, 10, 11, 12, 13, 14, 15, 16], output)
 
     def test_proper_pagination_settings_with_last(self):
         output = proper_pagination.proper_pagination(
@@ -49,7 +49,7 @@ class TemplateTagsProperPaginationTests(TestCase):
             current_page=12,
             include_last=2,
         )
-        self.assertEqual([7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 49, 50], output)
+        self.assertEqual([8, 9, 10, 11, 12, 13, 14, 15, 16, 49, 50], output)
 
     def test_proper_pagination_settings_with_first_and_last(self):
         output = proper_pagination.proper_pagination(
@@ -58,7 +58,7 @@ class TemplateTagsProperPaginationTests(TestCase):
             include_first=2,
             include_last=2,
         )
-        self.assertEqual([1, 2, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 49, 50], output)
+        self.assertEqual([1, 2, 8, 9, 10, 11, 12, 13, 14, 15, 16, 49, 50], output)
 
     def test_proper_pagination_settings_with_first_and_last_and_separator(self):
         output = proper_pagination.proper_pagination(
@@ -68,7 +68,7 @@ class TemplateTagsProperPaginationTests(TestCase):
             include_last=2,
             include_separator='...'
         )
-        self.assertEqual([1, 2, '...', 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, '...', 49, 50], output)
+        self.assertEqual([1, 2, '...', 8, 9, 10, 11, 12, 13, 14, 15, 16, '...', 49, 50], output)
 
     def test_proper_pagination_settings_with_first_last_separator_and_small_neighbors(self):
         output = proper_pagination.proper_pagination(
