@@ -4,7 +4,7 @@ register = template.Library()
 
 
 @register.simple_tag
-def proper_pagination(paginator, current_page, neighbors=5,
+def proper_pagination(paginator, current_page, neighbors=4,
                       include_first=None, include_last=None, include_separator=False):
     """ Returns a list containing a range of numbers to be used for pagination.
 
