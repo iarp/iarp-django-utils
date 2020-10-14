@@ -1,3 +1,5 @@
 [run]
+include =
+    iarp_django_utils/*
 omit =
-    tests/*
+    iarp_django_utils/tests/*
