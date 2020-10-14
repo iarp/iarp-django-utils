@@ -1,4 +1,5 @@
 import copy
+import urllib.parse
 
 from django.conf import settings
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
@@ -93,12 +94,9 @@ def paginator_helper(context_key, queryset, requested_page=None, limit=None, par
         params = copy.deepcopy(params)
         if page_url_param in params:
             del params[page_url_param]
-        result = []
-        for k, v in params.items():
-            result.append(f'{k}={v}')
-        result = '&'.join(result)
-        if result:
-            base_url = f'{result}&'
+
+        if params:
+            base_url = f"{urllib.parse.urlencode(params)}&"
 
     return {
         context_key: page.object_list,

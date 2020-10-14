@@ -130,7 +130,7 @@ class PaginationHelperTests(TestCase):
             }
         )
 
-        self.assertEqual('?limit=2&search=search text&', output['pagination_base_url'])
+        self.assertEqual('?limit=2&search=search+text&', output['pagination_base_url'])
 
     def test_pagination_requested_page_too_high(self):
 
