@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Title</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+</head>
+<body>
+
+    {% include 'demo/navigation.html' %}
+
+    <div class="container">
+
+        <h1>Items List</h1>
+
+        <p>{% include 'iarp_django_utils/pagination.html' %}</p>
+
+        <ul>
+            {% for item in object_list %}
+                <li><a href="{{ item.get_absolute_url }}">{{ item }}</a></li>
+            {% endfor %}
+        </ul>
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>
