@@ -48,3 +48,19 @@ class RequestToolsTests(TestCase):
 
         data = request_tools.posted_or_not_posted(context, 'test', 'true', '123', '231', 'selected')
         self.assertEqual(data, '')
+
+    def test_build_url_with_existing_params(self):
+        request = self.factory.get('/?test=here')
+        context = {'request': request}
+
+        output = request_tools.build_url_with_existing_params(context, page=2)
+        expected = '/?test=here&page=2'
+        self.assertEqual(expected, output)
+
+    def test_build_url_with_existing_params_alters_existing_param(self):
+        request = self.factory.get('/?test=here')
+        context = {'request': request}
+
+        output = request_tools.build_url_with_existing_params(context, page=2, test='blah')
+        expected = '/?test=blah&page=2'
+        self.assertEqual(expected, output)

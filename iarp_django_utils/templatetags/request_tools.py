@@ -84,3 +84,12 @@ def posted_or_not_posted(context, posted_name, posted_value, cval1, cval2, ret_v
         pass
 
     return ret_val if cval1 == cval2 else ''
+
+
+@register.simple_tag(takes_context=True)
+def build_url_with_existing_params(context, **kwargs):
+    request = context['request']
+    params = request.GET.copy()
+    for k, v in kwargs.items():
+        params[k] = v
+    return f"{request.path}?{params.urlencode()}"
