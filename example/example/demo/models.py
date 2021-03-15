@@ -3,6 +3,9 @@ from django.urls import reverse
 
 
 class Item(models.Model):
+    class Meta:
+        ordering = ['pk']
+
     body = models.TextField()
 
     def __str__(self):

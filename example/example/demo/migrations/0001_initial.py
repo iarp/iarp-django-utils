@@ -18,4 +18,8 @@ class Migration(migrations.Migration):
                 ('body', models.TextField()),
             ],
         ),
+        migrations.AlterModelOptions(
+            name='item',
+            options={'ordering': ['pk']},
+        ),
     ]
