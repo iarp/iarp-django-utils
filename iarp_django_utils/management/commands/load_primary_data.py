@@ -28,7 +28,8 @@ class Command(BaseCommand):
             for model in models:
                 cargs = [
                     f'{file_prefix}_{model}.json',
-                    '--app', app,
+                    '--app',
+                    app,
                 ]
                 with Benchmark(f'Loading {app}.{model}'):
                     try:

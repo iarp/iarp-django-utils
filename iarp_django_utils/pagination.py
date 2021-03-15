@@ -5,11 +5,18 @@ from django.conf import settings
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 
 
-def paginator_helper(context_key, queryset, requested_page=None, limit=None, params=None,
-                     page_url_param=getattr(settings, 'PAGINATION_PAGE_PARAM', 'page'),
-                     limit_url_param=getattr(settings, 'PAGINATION_LIMIT_PARAM', 'limit'),
-                     last_first=getattr(settings, 'PAGINATION_LAST_FIRST', False), **kwargs):
-    """ Builds and supports the custom pagination system this system uses.
+def paginator_helper(
+    context_key,
+    queryset,
+    requested_page=None,
+    limit=None,
+    params=None,
+    page_url_param=getattr(settings, 'PAGINATION_PAGE_PARAM', 'page'),
+    limit_url_param=getattr(settings, 'PAGINATION_LIMIT_PARAM', 'limit'),
+    last_first=getattr(settings, 'PAGINATION_LAST_FIRST', False),
+    **kwargs,
+):
+    """Builds and supports the custom pagination system this system uses.
 
     Examples:
 
@@ -69,11 +76,7 @@ def paginator_helper(context_key, queryset, requested_page=None, limit=None, par
 
     default_limit = int(getattr(settings, 'PAGINATION_LIMIT', 15))
 
-    paginator = Paginator(
-        object_list=queryset,
-        per_page=limit or default_limit,
-        **kwargs
-    )
+    paginator = Paginator(object_list=queryset, per_page=limit or default_limit, **kwargs)
 
     try:
         page = paginator.page(requested_page)

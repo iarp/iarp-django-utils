@@ -4,7 +4,7 @@ from django.utils import timezone
 
 
 def delete_relationshiped_items(obj):
-    """ Deletes all relationshiped objects.
+    """Deletes all relationshiped objects.
 
         Since this system doesn't actually delete rows, on_delete=models.CASCADE won't do anything.
         We have to re-create that CASCADE action.
@@ -36,8 +36,9 @@ def delete_relationshiped_items(obj):
 
 
 class DeactivateQuerySet(models.query.QuerySet):
-    """ QuerySet whose delete() does not delete items, but instead
-        updates the deleted with a datetime value. """
+    """QuerySet whose delete() does not delete items, but instead
+    updates the deleted with a datetime value."""
+
     def delete(self):
         # for item in self.all():
         #     delete_relationshiped_items(item)
@@ -46,6 +47,7 @@ class DeactivateQuerySet(models.query.QuerySet):
 
 class DeactivateManager(models.Manager):
     """ Manager that returns a DeactivateQuerySet, to prevent object deletion. """
+
     def get_queryset(self):
         return DeactivateQuerySet(self.model, using=self._db).filter(deleted__isnull=True)
 
@@ -58,6 +60,7 @@ class DeactivateMixin(models.Model):
     note: needs to be the first abstract class for the default objects
     manager to be replaced on the subclass.
     """
+
     objects = DeactivateManager()
     direct = models.Manager()
 

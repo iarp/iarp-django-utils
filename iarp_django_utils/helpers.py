@@ -2,7 +2,7 @@ from iarp_django_utils.app_settings import app_settings
 
 
 def only_save_changed_data(obj, obj_data: dict, not_these_fields=None, not_these_fields_startswith=None, save=True):
-    """ Only save obj where data found in obj_data does not match data within obj.
+    """Only save obj where data found in obj_data does not match data within obj.
 
     Examples:
 

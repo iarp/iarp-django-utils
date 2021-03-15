@@ -3,7 +3,7 @@ from django.template.defaulttags import register
 
 @register.filter
 def get_dict_value_by_key(dictionary, key):
-    """ Used when your key is stored in a template variable
+    """Used when your key is stored in a template variable
         and you need to use it to access a dictionary value
 
     Examples:
@@ -38,8 +38,8 @@ def get_dict_value_by_key(dictionary, key):
 
 @register.filter
 def get_subdict_items_by_key(dictionary, key):
-    """ See get_dict_value_by_key above docstring for explanation,
-        in this case it returns .items on the subdict"""
+    """See get_dict_value_by_key above docstring for explanation,
+    in this case it returns .items on the subdict"""
     try:
         return dictionary.get(key, dictionary.get(str(key))).items()
     except (AttributeError, KeyError, TypeError, ValueError):

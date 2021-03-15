@@ -7,6 +7,7 @@ def add_pagination_settings(request=None):
         'pagination_include_first': getattr(settings, 'PAGINATION_INCLUDE_FIRST', None),
         'pagination_include_last': getattr(settings, 'PAGINATION_INCLUDE_LAST', None),
         'pagination_neighbors': getattr(settings, 'PAGINATION_NEIGHBORS', None),
-        'pagination_include_last_page_in_last_button':
-            getattr(settings, 'PAGINATION_INCLUDE_LAST_PAGE_IN_LAST_BUTTON', True),
+        'pagination_include_last_page_in_last_button': getattr(
+            settings, 'PAGINATION_INCLUDE_LAST_PAGE_IN_LAST_BUTTON', True
+        ),
     }

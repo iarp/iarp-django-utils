@@ -33,7 +33,9 @@ class Command(BaseCommand):
                 print(f'Dumping {app}.{model} to {fixture_dir}\\{file_prefix}_{model}.json')
                 cargs = [
                     '.'.join([app, model]),
-                    '--output', os.path.join(fixture_dir, f'{file_prefix}_{model}.json'),
-                    '--indent', '4'
+                    '--output',
+                    os.path.join(fixture_dir, f'{file_prefix}_{model}.json'),
+                    '--indent',
+                    '4',
                 ]
                 call_command('dumpdata', *cargs)

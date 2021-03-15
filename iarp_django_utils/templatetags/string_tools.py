@@ -13,7 +13,7 @@ def endswith(text, value):
 
 @register.filter
 def truncatesentences(value, arg):
-    """ Splits on newline characters and returns however many sentences you wish.
+    """Splits on newline characters and returns however many sentences you wish.
 
     Examples:
 

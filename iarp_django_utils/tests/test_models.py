@@ -38,7 +38,6 @@ class GeneralTests(BaseTestClassMethods):
 
 
 class SettingsModelTests(BaseTestClassMethods):
-
     def test_basic_set_value_test(self):
         s = Setting.set_value('tests.name', value='here in tests')
         self.assertEqual('here in tests', s.value)

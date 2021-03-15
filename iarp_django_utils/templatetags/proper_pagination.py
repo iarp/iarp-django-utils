@@ -5,9 +5,10 @@ register = template.Library()
 
 
 @register.simple_tag
-def proper_pagination(paginator, current_page, neighbors=4,
-                      include_first=None, include_last=None, include_separator=False):
-    """ Returns a list containing a range of numbers to be used for pagination.
+def proper_pagination(
+    paginator, current_page, neighbors=4, include_first=None, include_last=None, include_separator=False
+):
+    """Returns a list containing a range of numbers to be used for pagination.
 
     Args:
         paginator: The paginator object to work on.
@@ -44,31 +45,31 @@ def proper_pagination(paginator, current_page, neighbors=4,
             1, 2, ..., 11, 12, 13, 14, 15, 16, 17, ..., 71, 72
 
     """
-    if paginator.num_pages > 2*neighbors:
-        start_index = max(1, current_page-neighbors)
+    if paginator.num_pages > 2 * neighbors:
+        start_index = max(1, current_page - neighbors)
         end_index = min(paginator.num_pages, current_page + neighbors)
-        if end_index < start_index + 2*neighbors:
-            end_index = start_index + 2*neighbors
-        elif start_index > end_index - 2*neighbors:
-            start_index = end_index - 2*neighbors
+        if end_index < start_index + 2 * neighbors:
+            end_index = start_index + 2 * neighbors
+        elif start_index > end_index - 2 * neighbors:
+            start_index = end_index - 2 * neighbors
         if start_index < 1:
             end_index -= start_index
             start_index = 1
         elif end_index > paginator.num_pages:
-            start_index -= (end_index-paginator.num_pages)
+            start_index -= end_index - paginator.num_pages
             end_index = paginator.num_pages
-        page_list = [f for f in range(start_index, end_index+1)]
+        page_list = [f for f in range(start_index, end_index + 1)]
 
         prepend_pages = []
         append_pages = []
 
         if include_first:
-            for x in range(1, include_first+1):
+            for x in range(1, include_first + 1):
                 if x not in page_list:
                     prepend_pages.append(x)
 
         if include_last:
-            for x in range(paginator.num_pages-include_last+1, paginator.num_pages+1):
+            for x in range(paginator.num_pages - include_last + 1, paginator.num_pages + 1):
                 if x not in append_pages and x not in prepend_pages and x not in page_list:
                     append_pages.append(x)
 
@@ -81,6 +82,6 @@ def proper_pagination(paginator, current_page, neighbors=4,
             if paginator.num_pages - (neighbors + include_last) > current_page:
                 append_pages.insert(0, include_separator)
 
-        return prepend_pages + page_list[:(2*neighbors + 1)] + append_pages
+        return prepend_pages + page_list[: (2 * neighbors + 1)] + append_pages
 
     return paginator.page_range

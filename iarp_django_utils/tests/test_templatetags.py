@@ -5,7 +5,6 @@ from iarp_django_utils.templatetags import request_tools
 
 
 class RequestToolsTests(TestCase):
-
     def setUp(self) -> None:
         self.factory = RequestFactory()
 

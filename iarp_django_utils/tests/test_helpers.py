@@ -10,7 +10,6 @@ from iarp_django_utils.helpers import (
 
 
 class HelperTests(TestCase):
-
     def setUp(self) -> None:
         self.obj = self.create_test_obj()
 
@@ -30,10 +29,7 @@ class HelperTests(TestCase):
 
     def test_only_save_changed_data_with_changed_data(self):
 
-        obj_data = {
-            'first_name': 'Jane',
-            'last_name': 'Doe'
-        }
+        obj_data = {'first_name': 'Jane', 'last_name': 'Doe'}
         output = only_save_changed_data(self.obj, obj_data)
         self.assertEqual(1, len(output))
         self.assertIn('first_name', output)
@@ -51,12 +47,7 @@ class HelperTests(TestCase):
 
     def test_only_save_changed_data_with_not_fields_startswith(self):
 
-        obj_data = {
-            'first_name': 'Jane',
-            'last_name': 'Doe',
-            'test_field1': 'field3',
-            'test_field2': 'field4'
-        }
+        obj_data = {'first_name': 'Jane', 'last_name': 'Doe', 'test_field1': 'field3', 'test_field2': 'field4'}
         output = only_save_changed_data(self.obj, obj_data, not_these_fields_startswith=['test_'])
         self.assertEqual(1, len(output))
         self.assertIn('first_name', output)

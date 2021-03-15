@@ -16,7 +16,6 @@ from .app_settings import app_settings
 
 
 class BaseSetting(models.Model):
-
     class Meta:
         abstract = True
         unique_together = ['app', 'name', 'hostname']
@@ -24,8 +23,9 @@ class BaseSetting(models.Model):
 
     app = models.CharField(max_length=255, help_text='Typically the app it belongs to i.e. games')
     name = models.CharField(max_length=255, help_text='Name that corresponds to the value stored i.e. username')
-    hostname = models.CharField(max_length=255, default='', blank=True,
-                                help_text='Name of the computer this setting is specific to.')
+    hostname = models.CharField(
+        max_length=255, default='', blank=True, help_text='Name of the computer this setting is specific to.'
+    )
     value = models.TextField(blank=True)
 
     inserted = models.DateTimeField(auto_now_add=True)
@@ -47,7 +47,7 @@ class BaseSetting(models.Model):
 
     @classmethod
     def get_value(cls, name, app=None, default=None, **kwargs):
-        """ Returns a single value for the name and app supplied.
+        """Returns a single value for the name and app supplied.
         Name can also be dot notation i.e. system.domain_root
 
         Examples:
@@ -103,7 +103,9 @@ class BaseSetting(models.Model):
                     default = s.value
 
             s = cls.objects.create(
-                app=app, name=name, value=str(default if default is not None else ''),
+                app=app,
+                name=name,
+                value=str(default if default is not None else ''),
                 hostname=hostname,
             )
         except cls.MultipleObjectsReturned:
@@ -142,7 +144,7 @@ class BaseSetting(models.Model):
 
     @classmethod
     def set_value(cls, name, app=None, value=None, **kwargs):
-        """ Sets a value for the name and app supplied.
+        """Sets a value for the name and app supplied.
         Name can also be dot notation i.e. system.domain_root
 
         Args:
@@ -180,7 +182,6 @@ class BaseSetting(models.Model):
 
 
 class CookieAutoLoginBaseFieldsModel(models.Model):
-
     class Meta:
         abstract = True
 

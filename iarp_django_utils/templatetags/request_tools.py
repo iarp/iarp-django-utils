@@ -39,7 +39,7 @@ def only_when_posted(context, name, value, ret_val, prepend_name='', *args, **kw
 
 @register.simple_tag(takes_context=True)
 def posted_or_not_posted(context, posted_name, posted_value, cval1, cval2, ret_val, prepend_name='', *args, **kwargs):
-    """ Compares 2 values if request.method == 'POST' otherwise it compares cval1 and cval2
+    """Compares 2 values if request.method == 'POST' otherwise it compares cval1 and cval2
 
     This was mainly developed for use with hard-coded select elements.
 

@@ -3,7 +3,7 @@ from django.template.defaulttags import register
 
 @register.filter
 def get_object_attribute(o, attr, default=''):
-    """ This is a shortcut filter that reduces if statements
+    """This is a shortcut filter that reduces if statements
     when wanting a default value.
 
     Examples:

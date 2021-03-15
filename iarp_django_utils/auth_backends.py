@@ -2,7 +2,7 @@ from django.contrib.auth.models import Group
 
 
 class AnonymousPermissions:
-    """ Allows django site administrators to assign permissions to anonymous users.
+    """Allows django site administrators to assign permissions to anonymous users.
 
     This allows you to add something like "Can View Photos" but then at some point
         you only want authenticated people to be able to view photos, just remove
