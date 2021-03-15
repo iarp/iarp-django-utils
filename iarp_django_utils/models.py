@@ -1,8 +1,10 @@
 import base64
 import datetime
 import socket
+import uuid
 import warnings
 
+from django.contrib.auth.hashers import check_password, make_password
 from django.db import models
 
 from iarp_utils.datetimes import fromisoformat
@@ -175,3 +177,17 @@ class BaseSetting(models.Model):
     @staticmethod
     def _encode_value(value):
         return base64.b64encode(value.encode('utf-8')).decode('utf-8')
+
+
+class CookieAutoLoginBaseFieldsModel(models.Model):
+
+    class Meta:
+        abstract = True
+
+    cookie_password = models.UUIDField(default=uuid.uuid4, null=True, blank=True)
+
+    def make_cookie_password(self):
+        return make_password(str(self.cookie_password))
+
+    def check_cookie_password(self, supplied_value):
+        return check_password(str(self.cookie_password), supplied_value)
