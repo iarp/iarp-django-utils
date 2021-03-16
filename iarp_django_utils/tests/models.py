@@ -1,6 +1,7 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 
-from iarp_django_utils.models import BaseSetting
+from iarp_django_utils.models import BaseSetting, CookieAutoLoginBaseFieldsModel
 
 
 class TestModel(models.Model):
@@ -8,4 +9,8 @@ class TestModel(models.Model):
 
 
 class Setting(BaseSetting):
+    pass
+
+
+class User(AbstractUser, CookieAutoLoginBaseFieldsModel):
     pass
