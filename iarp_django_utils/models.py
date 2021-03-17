@@ -187,8 +187,8 @@ class CookieAutoLoginBaseFieldsModel(models.Model):
 
     cookie_password = models.UUIDField(default=uuid.uuid4, null=True, blank=True)
 
-    def make_cookie_password(self):
+    def make_cookie_password_value(self):
         return make_password(str(self.cookie_password))
 
-    def check_cookie_password(self, supplied_value):
-        return check_password(str(self.cookie_password), supplied_value)
+    def check_cookie_password(self, cookie_value):
+        return check_password(str(self.cookie_password), cookie_value)
