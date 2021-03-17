@@ -83,3 +83,38 @@ PAGINATION_INCLUDE_LAST_PAGE_IN_LAST_BUTTON (=True)
         Last (96) >>
     else:
         Last >>
+
+Cookie Auto Login
+=================
+
+Built for my grandmother. Use an addon in your browser that has the ability
+to protect cookies from deletion/modification.
+
+Installation
+------------
+
+Requires a custom user model to be used.
+
+::
+
+    MIDDLEWARE = [
+        ...,
+        'iarp_django_utils.middleware.cookie_login.CookieAutoLogin',
+    ]
+
+Inherit from `iarp_django_utils.models.CookieAutoLoginBaseFieldsModel` on your user model.
+
+Cookie Settings
+---------------
+
+COOKIE_LOGIN_KEY (required)
+    The name of the cookie to look for and compare passworded values.
+
+COOKIE_LOGIN_AUTH (='')
+    String path to a function that accepts `user, cookie_value, request`.
+    Return True/False if the cookie_value is correct for the user supplied.
+
+    If returned True, it will login the user.
+
+COOKIE_LOGIN_BACKEND (="django.contrib.auth.backends.ModelBackend")
+    What backend to use logging in the user.

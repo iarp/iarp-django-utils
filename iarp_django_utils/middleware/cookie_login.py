@@ -23,6 +23,7 @@ class CookieAutoLogin(object):
             system_auth_checker = auth_check
 
         cookie_key = getattr(settings, "COOKIE_LOGIN_KEY", None)
+        login_backend = getattr(settings, "COOKIE_LOGIN_BACKEND", "django.contrib.auth.backends.ModelBackend")
 
         if not cookie_key:
             raise ValueError("CookieAutoLogin requires COOKIE_LOGIN_KEY in settings.")
@@ -32,7 +33,7 @@ class CookieAutoLogin(object):
             for user in User.objects.filter(cookie_password__isnull=False):
                 output = system_auth_checker(user=user, cookie_value=cookie_value, request=request)
                 if output:
-                    login(request, user, backend="django.contrib.auth.backends.ModelBackend")
+                    login(request, user, backend=login_backend)
                 break
 
         return self.get_response(request)
