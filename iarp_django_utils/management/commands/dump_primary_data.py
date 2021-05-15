@@ -10,12 +10,13 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         for app in apps.get_app_configs():
-            app_init_data = __import__(app.name)
-            models = None
+            app_name = app.name
+            app_init_data = __import__(app_name)
+
             try:
                 models = app_init_data.__fixture_dump_models__
             except AttributeError:
-                pass
+                models = None
 
             if not models:
                 continue
@@ -23,16 +24,15 @@ class Command(BaseCommand):
             try:
                 file_prefix = app_init_data.__fixture_prefix__
             except AttributeError:
-                file_prefix = app
+                file_prefix = app_name
 
-            fixture_dir = os.path.join(app, 'fixtures')
-            if not os.path.isdir(fixture_dir):
-                os.mkdir(fixture_dir)
+            fixture_dir = os.path.join(app_name, 'fixtures')
+            os.makedirs(fixture_dir, exist_ok=True)
 
             for model in models:
-                print(f'Dumping {app}.{model} to {fixture_dir}\\{file_prefix}_{model}.json')
+                print(f'Dumping {app_name}.{model} to {fixture_dir}\\{file_prefix}_{model}.json')
                 cargs = [
-                    '.'.join([app, model]),
+                    '.'.join([app_name, model]),
                     '--output',
                     os.path.join(fixture_dir, f'{file_prefix}_{model}.json'),
                     '--indent',
