@@ -8,7 +8,6 @@ from django.contrib.auth.hashers import check_password, make_password
 from django.db import models
 
 from iarp_utils.datetimes import fromisoformat
-from iarp_utils.strings import startswith_many
 
 from iarp_django_utils import helpers
 
@@ -116,8 +115,8 @@ class BaseSetting(models.Model):
 
         value = s.value
 
-        dts = ['date||', 'datetime||']
-        if startswith_many(value, dts):
+        dts = ('date||', 'datetime||')
+        if value.startswith(dts):
             for t in dts:
                 if value.startswith(t):
                     value = value.replace(t, '')
