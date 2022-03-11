@@ -10,7 +10,7 @@ previous versions. Most notably due to f-strings.
 Installation
 ============
 
-    pip install -e git+https://iarp@bitbucket.org/iarp/iarp-django-utils.git#egg=iarp_django_utils
+    pip install -e git+https://github.com/iarp/iarp-django-utils.git#egg=iarp_django_utils
 
 Add the following to settings.py::
 
