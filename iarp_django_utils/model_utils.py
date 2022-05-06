@@ -3,7 +3,7 @@ import contextlib
 
 @contextlib.contextmanager
 def suppress_auto_now(model, fields):
-    """ Suppresses auto_now* from working on the list of fields supplied.
+    """Suppresses auto_now* from working on the list of fields supplied.
 
     with suppress_auto_now(my_object, ['updated']):
         my_object.some_field = some_value

@@ -46,7 +46,7 @@ class DeactivateQuerySet(models.query.QuerySet):
 
 
 class DeactivateManager(models.Manager):
-    """ Manager that returns a DeactivateQuerySet, to prevent object deletion. """
+    """Manager that returns a DeactivateQuerySet, to prevent object deletion."""
 
     def get_queryset(self):
         return DeactivateQuerySet(self.model, using=self._db).filter(deleted__isnull=True)
