@@ -73,9 +73,6 @@ PAGINATION_NEIGHBORS (=4)
     if pagination_neighbors == 2 and current_page == 34, output will look like:
         First, Prev, 32, 33, 34, 35, 36, Next, Last
 
-PAGINATION_BUTTON_CLASSES (='btn btn-sm btn-secondary')
-    What classes to set the First/Next/Last/Prev buttons
-
 PAGINATION_INCLUDE_LAST_PAGE_IN_LAST_BUTTON (=True)
     Do you want to show the maximum number of pages on the Last button?
 
@@ -83,6 +80,26 @@ PAGINATION_INCLUDE_LAST_PAGE_IN_LAST_BUTTON (=True)
         Last (96) >>
     else:
         Last >>
+
+PAGINATION_UL_CLASS (='pagination justify-content-center flex-wrap')
+    The class to apply to the main ul element.
+
+PAGINATION_LI_CLASS (='page-item')
+    The class to apply to all li elements.
+
+PAGINATION_LI_DISABLED_CLASS (='page-item disabled')
+    The class to apply to all disabled li elements.
+
+    Disabled means they cannot go back anymore (on first page and still showing First button)
+
+PAGINATION_LI_A_CLASS (='page-link')
+    The class to apply to all a elements
+
+PAGINATION_LI_SPAN_CLASS (='page-link')
+    The class to apply to all span elements
+
+    Currently this only applies to the separator which uses span.
+
 
 Cookie Auto Login
 =================
