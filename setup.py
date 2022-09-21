@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
     name='iarp_django_utils',
@@ -8,7 +8,7 @@ setup(
     author='IARP',
     author_email='iarp.opensource@gmail.com',
     license='MIT',
-    packages=['iarp_django_utils'],
+    packages=find_packages(exclude=['example']),
     install_requires=[
         'django',
     ],
