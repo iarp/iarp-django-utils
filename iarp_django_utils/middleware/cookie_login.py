@@ -1,3 +1,5 @@
+import traceback
+
 from django.conf import settings
 from django.contrib.auth import get_user_model, login
 
@@ -30,10 +32,13 @@ class CookieAutoLogin(object):
 
         if cookie_key in request.COOKIES and not request.user.is_authenticated:
             cookie_value = request.COOKIES[cookie_key]
-            for user in User.objects.filter(cookie_password__isnull=False):
+            try:
+                user_id, cookie_value = cookie_value.split('_', 1)
+                user = User.objects.get(pk=user_id)
                 output = system_auth_checker(user=user, cookie_value=cookie_value, request=request)
                 if output:
                     login(request, user, backend=login_backend)
-                break
+            except (TypeError, ValueError, User.DoesNotExist):
+                print(traceback.format_exc())
 
         return self.get_response(request)
