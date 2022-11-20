@@ -16,3 +16,9 @@ def add_pagination_settings(request=None):
         'pagination_li_a_class': getattr(settings, 'PAGINATION_LI_A_CLASS', 'page-link'),
         'pagination_li_span_class': getattr(settings, 'PAGINATION_LI_SPAN_CLASS', 'page-link'),
     }
+
+
+def add_django_settings(request=None):
+    return {
+        'settings': settings,
+    }
