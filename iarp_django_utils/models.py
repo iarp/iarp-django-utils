@@ -7,8 +7,6 @@ import warnings
 from django.contrib.auth.hashers import check_password, make_password
 from django.db import models
 
-from iarp_utils.datetimes import fromisoformat
-
 from iarp_django_utils import helpers
 
 from .app_settings import app_settings
@@ -121,7 +119,7 @@ class BaseSetting(models.Model):
                 if value.startswith(t):
                     value = value.replace(t, '')
                     try:
-                        value = fromisoformat(value)
+                        value = datetime.datetime.fromisoformat(value)
                         if t == 'date||':
                             return value.date()
                         return value
