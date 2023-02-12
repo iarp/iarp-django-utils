@@ -18,7 +18,6 @@ class UserIsStaffOrAbove:
 
 
 class NextOrSuccessUrlRedirectionMixin:
-
     def get_next_url(self):
         next_ = self.request.GET.get("next")
         if next_:
