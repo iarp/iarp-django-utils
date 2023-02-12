@@ -30,4 +30,3 @@ class NextOrSuccessUrlRedirectionMixin:
         if next_:
             return next_
         return super().get_success_url()
-

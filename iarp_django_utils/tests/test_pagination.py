@@ -205,3 +205,30 @@ class PaginationHelperTests(TestCase):
             last_first=True,
         )
         self.assertEqual(7, output['page_obj'].number)
+
+    def test_pagination_with_default_context_pre(self):
+
+        output = paginator_helper(
+            context_key='objects',
+            queryset=TestModel.objects.all().order_by('id'),
+        )
+
+        self.assertIn('objects', output)
+        self.assertIn('paginator', output)
+        self.assertIn('page_obj', output)
+        self.assertIn('pagination_base_url', output)
+        self.assertIn('is_paginated', output)
+
+    def test_pagination_with_custom_context_pre(self):
+
+        output = paginator_helper(
+            context_key='objects',
+            queryset=TestModel.objects.all().order_by('id'),
+            context_keys_prefix='blahs_',
+        )
+
+        self.assertIn('blahs_objects', output)
+        self.assertIn('blahs_paginator', output)
+        self.assertIn('blahs_page_obj', output)
+        self.assertIn('blahs_pagination_base_url', output)
+        self.assertIn('blahs_is_paginated', output)

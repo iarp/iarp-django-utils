@@ -14,6 +14,7 @@ def paginator_helper(
     page_url_param=getattr(settings, 'PAGINATION_PAGE_PARAM', 'page'),
     limit_url_param=getattr(settings, 'PAGINATION_LIMIT_PARAM', 'limit'),
     last_first=getattr(settings, 'PAGINATION_LAST_FIRST', False),
+    context_keys_prefix=None,
     **kwargs,
 ):
     """Builds and supports the custom pagination system this system uses.
@@ -57,6 +58,7 @@ def paginator_helper(
             pertains to the number of items returned per page.
         last_first: Whether or not to load the first or last page
             when no page param is given.
+        context_keys_prefix: A prefix string to use on all context keys in the returned dict.
 
     Returns:
         dict of data to be added to the templates context for pagination purposes.
@@ -101,10 +103,22 @@ def paginator_helper(
         if params:
             base_url = f"{urllib.parse.urlencode(params)}&"
 
+    final_context_key = context_key
+    final_paginator_key = 'paginator'
+    final_page_obj_key = 'page_obj'
+    final_pagination_base_url_key = 'pagination_base_url'
+    final_is_paginated_key = 'is_paginated'
+    if context_keys_prefix:
+        final_context_key = f"{context_keys_prefix}{context_key}"
+        final_paginator_key = f'{context_keys_prefix}paginator'
+        final_page_obj_key = f'{context_keys_prefix}page_obj'
+        final_pagination_base_url_key = f'{context_keys_prefix}pagination_base_url'
+        final_is_paginated_key = f'{context_keys_prefix}is_paginated'
+
     return {
-        context_key: page.object_list,
-        'paginator': paginator,
-        'page_obj': page,
-        'pagination_base_url': f'?{base_url}',
-        'is_paginated': paginator.num_pages > 1,
+        final_context_key: page.object_list,
+        final_paginator_key: paginator,
+        final_page_obj_key: page,
+        final_pagination_base_url_key: f'?{base_url}',
+        final_is_paginated_key: paginator.num_pages > 1,
     }
