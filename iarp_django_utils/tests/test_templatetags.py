@@ -1,7 +1,8 @@
 from django.template import RequestContext
 from django.test import RequestFactory, TestCase
+from django.utils import timezone
 
-from iarp_django_utils.templatetags import request_tools
+from iarp_django_utils.templatetags import request_tools, datetime_tools
 
 
 class RequestToolsTests(TestCase):
@@ -63,3 +64,77 @@ class RequestToolsTests(TestCase):
         output = request_tools.build_url_with_existing_params(context, page=2, test='blah')
         expected = '/?test=blah&page=2'
         self.assertEqual(expected, output)
+
+
+class DateTimeToolsPositiveTests(TestCase):
+
+    def test_smooth_timedelta(self):
+        end = timezone.now()
+        start = end - timezone.timedelta(hours=1)
+        delta = end - start
+
+        output = datetime_tools.smooth_timedelta(delta)
+        self.assertEqual("60 minutes", output)
+
+    def test_smooth_timedelta_single_day(self):
+        end = timezone.now()
+        start = end - timezone.timedelta(days=1)
+        delta = end - start
+
+        output = datetime_tools.smooth_timedelta(delta)
+        self.assertEqual("24 hours", output)
+
+    def test_smooth_timedelta_singles(self):
+
+        end = timezone.now()
+        start = end - timezone.timedelta(days=1, hours=1, minutes=1, seconds=1)
+        delta = end - start
+
+        output = datetime_tools.smooth_timedelta(delta)
+        self.assertEqual("1 day 1 hour 1 minute 1 second", output)
+
+    def test_smooth_timedelta_multiples(self):
+
+        end = timezone.now()
+        start = end - timezone.timedelta(days=2, hours=2, minutes=2, seconds=2)
+        delta = end - start
+
+        output = datetime_tools.smooth_timedelta(delta)
+        self.assertEqual("2 days 2 hours 2 minutes 2 seconds", output)
+
+
+class DateTimeToolsNegativeTests(TestCase):
+
+    def test_smooth_timedelta(self):
+        end = timezone.now()
+        start = end + timezone.timedelta(hours=1)
+        delta = end - start
+
+        output = datetime_tools.smooth_timedelta(delta)
+        self.assertEqual("60 minutes", output)
+
+    def test_smooth_timedelta_single_day(self):
+        end = timezone.now()
+        start = end + timezone.timedelta(days=1)
+        delta = end - start
+
+        output = datetime_tools.smooth_timedelta(delta)
+        self.assertEqual("24 hours", output)
+
+    def test_smooth_timedelta_singles(self):
+
+        end = timezone.now()
+        start = end + timezone.timedelta(days=1, hours=1, minutes=1, seconds=1)
+        delta = end - start
+
+        output = datetime_tools.smooth_timedelta(delta)
+        self.assertEqual("1 day 1 hour 1 minute 1 second", output)
+
+    def test_smooth_timedelta_multiples(self):
+
+        end = timezone.now()
+        start = end + timezone.timedelta(days=2, hours=2, minutes=2, seconds=2)
+        delta = end - start
+
+        output = datetime_tools.smooth_timedelta(delta)
+        self.assertEqual("2 days 2 hours 2 minutes 2 seconds", output)
