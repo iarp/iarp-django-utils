@@ -5,12 +5,19 @@ register = template.Library()
 
 
 @register.filter()
-def smooth_timedelta(timedeltaobj,
-                     str_joiner=" ", general_joiner=" ",
-                     day_str="day", days_str="days",
-                     hour_str="hour", hours_str="hours",
-                     minute_str="minute", minutes_str="minutes",
-                     second_str="second", seconds_str="seconds"):
+def smooth_timedelta(
+    timedeltaobj,
+    str_joiner=" ",
+    general_joiner=" ",
+    day_str="day",
+    days_str="days",
+    hour_str="hour",
+    hours_str="hours",
+    minute_str="minute",
+    minutes_str="minutes",
+    second_str="second",
+    seconds_str="seconds",
+):
     """Convert a datetime.timedelta object into Days, Hours, Minutes, Seconds."""
     secs = timedeltaobj.total_seconds()
 
