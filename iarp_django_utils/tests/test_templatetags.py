@@ -138,3 +138,65 @@ class DateTimeToolsNegativeTests(TestCase):
 
         output = datetime_tools.smooth_timedelta(delta)
         self.assertEqual("2 days 2 hours 2 minutes 2 seconds", output)
+
+    def test_smooth_timedelta_with_different_strs_pluralized_spaced_joiner(self):
+
+        end = timezone.now()
+        start = end + timezone.timedelta(days=2, hours=2, minutes=2, seconds=2)
+        delta = end - start
+
+        output = datetime_tools.smooth_timedelta(
+            timedeltaobj=delta,
+            day_str="d", days_str="ds",
+            hour_str="hr", hours_str="hrs",
+            minute_str="min", minutes_str="mins",
+            second_str="sec", seconds_str="secs"
+        )
+        self.assertEqual("2 ds 2 hrs 2 mins 2 secs", output)
+
+    def test_smooth_timedelta_with_different_strs_pluralized_spaceless_joiner(self):
+
+        end = timezone.now()
+        start = end + timezone.timedelta(days=2, hours=2, minutes=2, seconds=2)
+        delta = end - start
+
+        output = datetime_tools.smooth_timedelta(
+            timedeltaobj=delta,
+            day_str="d", days_str="ds",
+            hour_str="hr", hours_str="hrs",
+            minute_str="min", minutes_str="mins",
+            second_str="sec", seconds_str="secs",
+            str_joiner="",
+        )
+        self.assertEqual("2ds 2hrs 2mins 2secs", output)
+
+    def test_smooth_timedelta_with_different_strs_singular_spaced_joiner(self):
+
+        end = timezone.now()
+        start = end + timezone.timedelta(days=1, hours=1, minutes=1, seconds=1)
+        delta = end - start
+
+        output = datetime_tools.smooth_timedelta(
+            timedeltaobj=delta,
+            day_str="d",
+            hour_str="hr",
+            minute_str="min",
+            second_str="sec",
+        )
+        self.assertEqual("1 d 1 hr 1 min 1 sec", output)
+
+    def test_smooth_timedelta_with_different_strs_singular_spaceless_joiner(self):
+
+        end = timezone.now()
+        start = end + timezone.timedelta(days=1, hours=1, minutes=1, seconds=1)
+        delta = end - start
+
+        output = datetime_tools.smooth_timedelta(
+            timedeltaobj=delta,
+            day_str="d",
+            hour_str="hr",
+            minute_str="min",
+            second_str="sec",
+            str_joiner=""
+        )
+        self.assertEqual("1d 1hr 1min 1sec", output)
