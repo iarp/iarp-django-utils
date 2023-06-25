@@ -70,3 +70,5 @@ MEDIA_URL = '/media/'
 AUTH_USER_MODEL = 'tests.User'
 
 COOKIE_LOGIN_KEY = 'changeme'
+
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
