@@ -4,6 +4,7 @@ import socket
 import uuid
 import warnings
 
+from django.apps import apps
 from django.contrib.auth.hashers import check_password, make_password
 from django.db import models
 
@@ -189,3 +190,27 @@ class CookieAutoLoginBaseFieldsModel(models.Model):
 
     def check_cookie_password(self, cookie_value):
         return check_password(str(self.cookie_password), cookie_value)
+
+
+def get_pagecontents_model(name=None):
+    if not name:
+        name = app_settings.PAGECONTENTS_MODEL
+    return apps.get_model(name)
+
+
+class PageContentsBase(models.Model):
+
+    class Meta:
+        abstract = True
+        verbose_name = 'Page Content Block'
+        verbose_name_plural = 'Page Content Blocks'
+
+    app = models.CharField(max_length=255)
+    location = models.CharField(max_length=255)
+    contents = models.TextField()
+
+    inserted = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'{self.app} - {self.location}'

@@ -8,6 +8,13 @@ class AppSettings(object):
         return getattr(settings, f'{self.prefix}{name}', default)
 
     @property
+    def PAGECONTENTS_MODEL(self):
+        value = self._setting('PAGECONTENTS_MODEL', default=None)
+        if not value:
+            raise ValueError(f'{self.prefix}PAGECONTENTS_MODEL must be set to use PageContents system')
+        return value
+
+    @property
     def SETTINGS_USE_HOSTNAME_SEPARATION(self):
         """
         Controls whether or not to use the hostname value on BaseSetting
