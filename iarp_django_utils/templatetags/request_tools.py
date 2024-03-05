@@ -87,9 +87,31 @@ def posted_or_not_posted(context, posted_name, posted_value, cval1, cval2, ret_v
 
 
 @register.simple_tag(takes_context=True)
-def build_url_with_existing_params(context, **kwargs):
+def build_url_with_existing_params(context, not_these=None, **kwargs):
+    """
+        Builds a url with existing parameters.
+
+        not_these should be a comma separated list of keys to replace within the url
+
+        {% if request.GET.o == '-inserted' %}
+            {% build_url_with_existing_params o='inserted' %}
+        {% elif request.GET.o == 'inserted' %}
+            {% build_url_with_existing_params 'o' %}
+        {% else %}
+            {% build_url_with_existing_params o='-inserted' %}
+        {% endif %}
+
+        http://127.0.0.1:8000/?year=2007&missing=True&o=downloaded
+
+        The above will cause the above url to swap o= on the url
+    """
+    if not_these:
+        not_these = not_these.split(',')
     request = context['request']
     params = request.GET.copy()
     for k, v in kwargs.items():
         params[k] = v
+    if not_these:
+        for k in not_these:
+            params.pop(k, None)
     return f"{request.path}?{params.urlencode()}"
