@@ -1,0 +1,108 @@
+[build-system]
+requires = ["setuptools >= 61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "iarp_django_utils"
+description = "A personal collection of common django utilities used in various projects."
+version = "2025.5.29"
+requires-python = ">= 3.0"
+readme = "readme.rst"
+keywords = ["django", "utilities"]
+authors = [
+  {name = "IARP", email = "iarp.opensource@gmail.com"},
+]
+classifiers = [
+	"Development Status :: 3 - Alpha",
+
+	"License :: OSI Approved :: MIT License",
+
+	"Programming Language :: Python :: 3.10",
+	"Programming Language :: Python :: 3.11",
+	"Programming Language :: Python :: 3.12",
+]
+
+dependencies = [
+	"Django",
+	"https://github.com/iarp/Python-Utils/archive/refs/heads/master.zip",
+]
+
+[project.urls]
+Repository = "https://github.com/iarp/iarp-django-utils"
+Issues = "https://github.com/iarp/iarp-django-utils/issues"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+include = ["iarp_django_utils*"]
+exclude = ['example*',]
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "example.example.settings"
+python_files = [
+    "tests.py",
+    "test_*.py",
+    "*_tests.py"
+]
+
+[tool.black]
+line-length = 120
+target-version = ['py312']
+# skip-string-normalization = true
+force-exclude = '''
+/(
+  | migrations
+  | tests
+)/
+'''
+
+[tool.isort]
+py_version = 311
+extend_skip_glob = [
+    '*/migrations/*',
+	'*tests/*',
+	'venv/*',
+	'.tox/',
+	'example*'
+]
+line_length = 120
+indent = 4
+combine_star = true
+combine_as_imports = true
+include_trailing_comma = true
+multi_line_output = 3
+lines_after_imports = 2
+known_django = ["django"]
+extra_standard_library = ["types", "requests"]
+known_first_party = []
+sections = ["FUTURE", "STDLIB", "DJANGO", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER"]
+
+[tool.flake8]
+max-line-length = 120
+count = true
+extend_ignore = [
+	# "E722",  # do not use bare except
+	"E252",  #  missing whitespace around parameter equals
+	"E127",  # continuation line over-indented for visual indent
+]  # "E501"
+exclude = [
+	"*migrations*",
+	"*tests*",
+]
+
+[tool.coverage.run]
+include = [
+	"iarp_django_utils/*"
+]
+omit = [
+	"*iarp_django_utils/oneoffs.py",
+]
+
+[tool.coverage.html]
+directory = "coverage_html_report"
+
+[tool.coverage.report]
+exclude_also = [
+    "pragma: no cover",
+]
