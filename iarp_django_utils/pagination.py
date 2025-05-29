@@ -1,5 +1,6 @@
 import copy
 import urllib.parse
+import warnings
 
 from django.conf import settings
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
@@ -11,6 +12,7 @@ def paginator_helper(
     requested_page=None,
     limit=None,
     params=None,
+    request_params=None,
     page_url_param=getattr(settings, 'PAGINATION_PAGE_PARAM', 'page'),
     limit_url_param=getattr(settings, 'PAGINATION_LIMIT_PARAM', 'limit'),
     last_first=getattr(settings, 'PAGINATION_LAST_FIRST', False),
@@ -50,8 +52,9 @@ def paginator_helper(
         queryset: The queryset to base pagination on
         requested_page: Which page to load
         limit: How many items per page
-        params: Typically just request.GET, it fixes the url to allow
+        request_params: Typically just request.GET, it fixes the url to allow
             extra GET parameters and not interfere with ?page mechanism.
+        params: depreciated, use request_params
         page_url_param: The param to be found in params that
             pertains to the page being loaded.
         limit_url_param: The param to be found in params that
@@ -63,13 +66,17 @@ def paginator_helper(
     Returns:
         dict of data to be added to the templates context for pagination purposes.
     """
-    if not isinstance(params, dict):
-        params = {}
-    if page_url_param and page_url_param in params:
-        requested_page = params[page_url_param]
+    if params:
+        warnings.warn('params has been depreciated, use request_params', DeprecationWarning)
+        request_params = params
+
+    if not isinstance(request_params, dict):
+        request_params = {}
+    if page_url_param and page_url_param in request_params:
+        requested_page = request_params[page_url_param]
         last_first = False
-    if limit_url_param and limit_url_param in params:
-        limit = params[limit_url_param]
+    if limit_url_param and limit_url_param in request_params:
+        limit = request_params[limit_url_param]
 
     if last_first and requested_page is None:
         requested_page = -1
@@ -95,13 +102,13 @@ def paginator_helper(
         page = paginator.page(requested_page)
 
     base_url = ''
-    if params and isinstance(params, dict):
-        params = copy.deepcopy(params)
-        if page_url_param in params:
+    if request_params and isinstance(request_params, dict):
+        request_params = copy.deepcopy(request_params)
+        if page_url_param in request_params:
             del params[page_url_param]
 
-        if params:
-            base_url = f"{urllib.parse.urlencode(params)}&"
+        if request_params:
+            base_url = f"{urllib.parse.urlencode(request_params)}&"
 
     final_context_key = context_key
     final_paginator_key = 'paginator'
