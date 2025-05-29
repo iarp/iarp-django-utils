@@ -24,7 +24,8 @@ classifiers = [
 
 dependencies = [
 	"Django",
-	"pip @ https://github.com/iarp/Python-Utils/archive/refs/heads/master.zip",
+	# need to come back to this
+	# "pip @ https://github.com/iarp/Python-Utils/archive/refs/heads/master.zip",
 ]
 
 [project.urls]
