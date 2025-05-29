@@ -1,6 +1,6 @@
 [build-system]
-requires = ["setuptools >= 61.0"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling >= 1.26"]
+build-backend = "hatchling.build"
 
 [project]
 name = "iarp_django_utils"
@@ -32,8 +32,19 @@ dependencies = [
 Repository = "https://github.com/iarp/iarp-django-utils"
 Issues = "https://github.com/iarp/iarp-django-utils/issues"
 
+[tool.hatch.build]
+include = [
+  "iarp_django_utils/**/*.*",
+]
+exclude = [
+  "tests/**",
+]
+
 [tool.setuptools]
 include-package-data = true
+
+[tool.setuptools.package-data]
+iarp_django_utils = ["*.html"]
 
 [tool.setuptools.packages.find]
 include = ["iarp_django_utils*"]
