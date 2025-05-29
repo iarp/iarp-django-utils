@@ -8,7 +8,7 @@ setup(
     author='IARP',
     author_email='iarp.opensource@gmail.com',
     license='MIT',
-    packages=find_packages(exclude=['example']),
+    packages=find_packages(exclude=['example'], include=['iarp_django_utils*']),
     install_requires=[
         'django',
     ],
