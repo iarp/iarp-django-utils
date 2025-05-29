@@ -51,3 +51,12 @@ def replace(value, arg):
 
     what, to = arg.split('|')
     return value.replace(what, to)
+
+
+@register.simple_tag
+def join(joiner, *args):
+    output = []
+    for arg in args:
+        if arg:
+            output.append(str(arg))
+    return joiner.join(output)
