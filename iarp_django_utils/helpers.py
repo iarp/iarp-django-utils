@@ -28,9 +28,9 @@ def only_save_changed_data(obj, obj_data: dict, not_these_fields=None, not_these
     """
 
     if not_these_fields is not None and not isinstance(not_these_fields, (list, tuple, set)):
-        raise TypeError('param not_these_fields must be of type list, tuple, or set.')
+        raise TypeError("param not_these_fields must be of type list, tuple, or set.")
     if not_these_fields_startswith is not None and not isinstance(not_these_fields_startswith, (list, tuple, set)):
-        raise TypeError('param not_these_fields_startswith must be of type list, tuple, or set.')
+        raise TypeError("param not_these_fields_startswith must be of type list, tuple, or set.")
 
     # Because there are so many rows, I only want to actually save when something has changed.
     changed = set()
@@ -60,13 +60,13 @@ def only_save_changed_data(obj, obj_data: dict, not_these_fields=None, not_these
 
 
 def get_app_name_for_queryset_filter():
-    return get_param_name_for_queryset_filter('app')
+    return get_param_name_for_queryset_filter("app")
 
 
 def get_name_name_for_queryset_filter():
-    return get_param_name_for_queryset_filter('name')
+    return get_param_name_for_queryset_filter("name")
 
 
 def get_param_name_for_queryset_filter(key: str):
-    val = getattr(app_settings, f'SETTINGS_CASE_SENSITIVE_{key.upper()}')
-    return key if val else f'{key}__iexact'
+    val = getattr(app_settings, f"SETTINGS_CASE_SENSITIVE_{key.upper()}")
+    return key if val else f"{key}__iexact"

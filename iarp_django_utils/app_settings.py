@@ -5,13 +5,13 @@ class AppSettings(object):
     def _setting(self, name, default):
         from django.conf import settings
 
-        return getattr(settings, f'{self.prefix}{name}', default)
+        return getattr(settings, f"{self.prefix}{name}", default)
 
     @property
     def PAGECONTENTS_MODEL(self):
-        value = self._setting('PAGECONTENTS_MODEL', default=None)
+        value = self._setting("PAGECONTENTS_MODEL", default=None)
         if not value:
-            raise ValueError(f'{self.prefix}PAGECONTENTS_MODEL must be set to use PageContents system')
+            raise ValueError(f"{self.prefix}PAGECONTENTS_MODEL must be set to use PageContents system")
         return value
 
     @property
@@ -19,7 +19,7 @@ class AppSettings(object):
         """
         Controls whether or not to use the hostname value on BaseSetting
         """
-        return self._setting('SETTINGS_USE_HOSTNAME_SEPARATION', True)
+        return self._setting("SETTINGS_USE_HOSTNAME_SEPARATION", True)
 
     @property
     def SETTINGS_BLANK_HOSTNAME_IS_DEFAULT(self):
@@ -27,15 +27,15 @@ class AppSettings(object):
         If the hostname specific setting does not exist, should we check
         for a hostname='' entry and use that as the default?
         """
-        return self._setting('SETTINGS_BLANK_HOSTNAME_IS_DEFAULT', True)
+        return self._setting("SETTINGS_BLANK_HOSTNAME_IS_DEFAULT", True)
 
     @property
     def SETTINGS_CASE_SENSITIVE_NAME(self):
-        return self._setting('SETTINGS_CASE_SENSITIVE_NAME', True)
+        return self._setting("SETTINGS_CASE_SENSITIVE_NAME", True)
 
     @property
     def SETTINGS_CASE_SENSITIVE_APP(self):
-        return self._setting('SETTINGS_CASE_SENSITIVE_APP', True)
+        return self._setting("SETTINGS_CASE_SENSITIVE_APP", True)
 
 
-app_settings = AppSettings('IARPDJANGOUTILS_')
+app_settings = AppSettings("IARPDJANGOUTILS_")

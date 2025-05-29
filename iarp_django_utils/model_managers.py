@@ -17,14 +17,14 @@ def delete_relationshiped_items(obj):
         # Since we're not actually deleting rows, issue .delete() on
         # all related items as CASCADE won't actually cascade
         # since we're just updating the deleted column.
-        if getattr(field, 'on_delete', None) == models.CASCADE:
+        if getattr(field, "on_delete", None) == models.CASCADE:
 
-            if type(field) in [models.ManyToOneRel, models.ManyToManyRel]:
+            if isinstance(field, [models.ManyToOneRel, models.ManyToManyRel]):
 
                 # Filtering doesn't require catching an exception
                 getattr(obj, field.get_accessor_name()).all().delete()
 
-            elif type(field) == models.OneToOneRel:
+            elif isinstance(field, models.OneToOneRel):
 
                 # OneToOne accessing the other object directly,
                 # calling .delete raises model.DoesNotExist

@@ -9,7 +9,7 @@ class AddRequestIsAjax(object):
                     request.META.get("HTTP_X_REQUESTED_WITH") == "XMLHttpRequest",
                     request.content_type == "application/json",
                     request.META.get("HTTP_ACCEPT") == "application/json",
-                    request.META.get('HTTP_HX_REQUEST'),
+                    request.META.get("HTTP_HX_REQUEST"),
                 ]
             )
 

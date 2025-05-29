@@ -33,7 +33,7 @@ class CookieAutoLogin(object):
         if cookie_key in request.COOKIES and not request.user.is_authenticated:
             cookie_value = request.COOKIES[cookie_key]
             try:
-                user_id, cookie_value = cookie_value.split('_', 1)
+                user_id, cookie_value = cookie_value.split("_", 1)
                 user = User.objects.get(pk=user_id)
                 output = system_auth_checker(user=user, cookie_value=cookie_value, request=request)
                 if output:

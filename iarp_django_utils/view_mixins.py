@@ -4,7 +4,7 @@ from django.shortcuts import redirect
 
 class RestrictQuerySetToAuthorizedUserMixin:
 
-    queryset_restrict_user_field = 'user'
+    queryset_restrict_user_field = "user"
 
     def get_queryset(self):
         return super().get_queryset().filter(**{self.queryset_restrict_user_field: self.request.user})
@@ -21,7 +21,7 @@ class NextOrSuccessUrlRedirectionMixin:
     def get_next_url(self):
         next_ = self.request.GET.get("next")
         if next_:
-            next_ = next_.split('#', 1)[0]
+            next_ = next_.split("#", 1)[0]
             return next_
 
     def get_success_url(self):

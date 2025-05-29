@@ -28,7 +28,7 @@ def truncatesentences(value, arg):
     except ValueError:  # invalid literal for int()
         return value  # Fail silently.
     lines = []
-    for index, line in enumerate(value.split('\n')):
+    for index, line in enumerate(value.split("\n")):
         if index >= length:
             break
 
@@ -37,7 +37,7 @@ def truncatesentences(value, arg):
             length += 1
 
         lines.append(line)
-    return '\n'.join(lines)
+    return "\n".join(lines)
 
 
 @register.filter
@@ -46,10 +46,10 @@ def replace(value, arg):
     Replacing filter
     Use `{{ "aaa"|replace:"a|b" }}`
     """
-    if len(arg.split('|')) != 2:
+    if len(arg.split("|")) != 2:
         return value
 
-    what, to = arg.split('|')
+    what, to = arg.split("|")
     return value.replace(what, to)
 
 

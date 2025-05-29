@@ -26,16 +26,16 @@ class Command(BaseCommand):
             except AttributeError:
                 file_prefix = app_name
 
-            fixture_dir = os.path.join(app_name, 'fixtures')
+            fixture_dir = os.path.join(app_name, "fixtures")
             os.makedirs(fixture_dir, exist_ok=True)
 
             for model in models:
-                print(f'Dumping {app_name}.{model} to {fixture_dir}\\{file_prefix}_{model}.json')
+                print(f"Dumping {app_name}.{model} to {fixture_dir}\\{file_prefix}_{model}.json")
                 cargs = [
-                    '.'.join([app_name, model]),
-                    '--output',
-                    os.path.join(fixture_dir, f'{file_prefix}_{model}.json'),
-                    '--indent',
-                    '4',
+                    ".".join([app_name, model]),
+                    "--output",
+                    os.path.join(fixture_dir, f"{file_prefix}_{model}.json"),
+                    "--indent",
+                    "4",
                 ]
-                call_command('dumpdata', *cargs)
+                call_command("dumpdata", *cargs)

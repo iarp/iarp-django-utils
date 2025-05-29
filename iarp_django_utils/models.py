@@ -16,13 +16,13 @@ from .app_settings import app_settings
 class BaseSetting(models.Model):
     class Meta:
         abstract = True
-        unique_together = ['app', 'name', 'hostname']
-        ordering = ['app', 'name', 'hostname']
+        unique_together = ["app", "name", "hostname"]
+        ordering = ["app", "name", "hostname"]
 
-    app = models.CharField(max_length=255, help_text='Typically the app it belongs to i.e. games')
-    name = models.CharField(max_length=255, help_text='Name that corresponds to the value stored i.e. username')
+    app = models.CharField(max_length=255, help_text="Typically the app it belongs to i.e. games")
+    name = models.CharField(max_length=255, help_text="Name that corresponds to the value stored i.e. username")
     hostname = models.CharField(
-        max_length=255, default='', blank=True, help_text='Name of the computer this setting is specific to.'
+        max_length=255, default="", blank=True, help_text="Name of the computer this setting is specific to."
     )
     value = models.TextField(blank=True)
 
@@ -30,18 +30,18 @@ class BaseSetting(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f'{self.app}.{self.name}={self.value}'
+        return f"{self.app}.{self.name}={self.value}"
 
     @staticmethod
-    def _get_hostname(system_specific=False, hostname=''):
+    def _get_hostname(system_specific=False, hostname=""):
 
         if not app_settings.SETTINGS_USE_HOSTNAME_SEPARATION:
-            return ''
+            return ""
 
         if system_specific:
             hostname = socket.gethostname().lower()
 
-        return hostname.replace('.', '')
+        return hostname.replace(".", "")
 
     @classmethod
     def get_value(cls, name, app=None, default=None, **kwargs):
@@ -68,7 +68,7 @@ class BaseSetting(models.Model):
             Gets the value for given app and name.
         """
         if not app:
-            app, name = name.split('.', 1)
+            app, name = name.split(".", 1)
 
         hostname = cls._get_hostname(**kwargs)
 
@@ -78,7 +78,7 @@ class BaseSetting(models.Model):
         query_params = {
             app_key: app,
             name_key: name,
-            'hostname': hostname,
+            "hostname": hostname,
         }
 
         try:
@@ -95,7 +95,7 @@ class BaseSetting(models.Model):
                     s = None
                 except cls.MultipleObjectsReturned:
                     warnings.warn(f'Settings {app}.{name} hm="" returned multiple items!')
-                    s = cls.objects.filter(app=app, name=name, hostname='').order_by('-last_updated').first()
+                    s = cls.objects.filter(app=app, name=name, hostname="").order_by("-last_updated").first()
 
                 if s:
                     default = s.value
@@ -103,25 +103,25 @@ class BaseSetting(models.Model):
             s = cls.objects.create(
                 app=app,
                 name=name,
-                value=str(default if default is not None else ''),
+                value=str(default if default is not None else ""),
                 hostname=hostname,
             )
         except cls.MultipleObjectsReturned:
-            warnings.warn(f'Settings {app}.{name} hm={hostname} returned multiple items!')
-            s = cls.objects.filter(app=app, name=name, hostname=hostname).order_by('-last_updated').first()
+            warnings.warn(f"Settings {app}.{name} hm={hostname} returned multiple items!")
+            s = cls.objects.filter(app=app, name=name, hostname=hostname).order_by("-last_updated").first()
         except:  # noqa
             return default
 
         value = s.value
 
-        dts = ('date||', 'datetime||')
+        dts = ("date||", "datetime||")
         if value.startswith(dts):
             for t in dts:
                 if value.startswith(t):
-                    value = value.replace(t, '')
+                    value = value.replace(t, "")
                     try:
                         value = datetime.datetime.fromisoformat(value)
-                        if t == 'date||':
+                        if t == "date||":
                             return value.date()
                         return value
                     except ValueError:
@@ -129,13 +129,13 @@ class BaseSetting(models.Model):
                     finally:
                         break
 
-        if value.lower() in ['true', 'false']:
-            return value.lower() == 'true'
+        if value.lower() in ["true", "false"]:
+            return value.lower() == "true"
 
         if value.isdigit():
             return int(value)
 
-        if name.strip().lower() == 'password':
+        if name.strip().lower() == "password":
             return cls._decode_value(value)
 
         return value
@@ -150,15 +150,15 @@ class BaseSetting(models.Model):
             app: The application the setting is for
         """
         if not app:
-            app, name = name.split('.', 1)
+            app, name = name.split(".", 1)
 
         hostname = cls._get_hostname(**kwargs)
 
         if isinstance(value, datetime.datetime):
-            value = f'datetime||{value.isoformat()}'
+            value = f"datetime||{value.isoformat()}"
         elif isinstance(value, datetime.date):
-            value = f'date||{value.isoformat()}'
-        elif name.strip().lower() == 'password':
+            value = f"date||{value.isoformat()}"
+        elif name.strip().lower() == "password":
             try:
                 obj = cls.objects.get(app=app, name=name, hostname=hostname)
             except cls.DoesNotExist:
@@ -167,16 +167,16 @@ class BaseSetting(models.Model):
             if not obj or obj.value != value:
                 value = cls._encode_value(value)
 
-        s, _ = cls.objects.update_or_create(app=app, name=name, hostname=hostname, defaults={'value': value})
+        s, _ = cls.objects.update_or_create(app=app, name=name, hostname=hostname, defaults={"value": value})
         return s
 
     @staticmethod
     def _decode_value(value):
-        return base64.b64decode(value).decode('utf-8')
+        return base64.b64decode(value).decode("utf-8")
 
     @staticmethod
     def _encode_value(value):
-        return base64.b64encode(value.encode('utf-8')).decode('utf-8')
+        return base64.b64encode(value.encode("utf-8")).decode("utf-8")
 
 
 class CookieAutoLoginBaseFieldsModel(models.Model):
@@ -202,8 +202,8 @@ class PageContentsBase(models.Model):
 
     class Meta:
         abstract = True
-        verbose_name = 'Page Content Block'
-        verbose_name_plural = 'Page Content Blocks'
+        verbose_name = "Page Content Block"
+        verbose_name_plural = "Page Content Blocks"
 
     app = models.CharField(max_length=255)
     location = models.CharField(max_length=255)
@@ -213,4 +213,4 @@ class PageContentsBase(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f'{self.app} - {self.location}'
+        return f"{self.app} - {self.location}"

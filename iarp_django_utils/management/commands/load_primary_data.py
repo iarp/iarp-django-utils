@@ -27,12 +27,12 @@ class Command(BaseCommand):
 
             for model in models:
                 cargs = [
-                    f'{file_prefix}_{model}.json',
-                    '--app',
+                    f"{file_prefix}_{model}.json",
+                    "--app",
                     app,
                 ]
-                with Benchmark(f'Loading {app}.{model}'):
+                with Benchmark(f"Loading {app}.{model}"):
                     try:
-                        call_command('loaddata', *cargs)
+                        call_command("loaddata", *cargs)
                     except CommandError as e:
                         print(e)

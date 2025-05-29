@@ -13,7 +13,7 @@ def get_hijacker(context):
     This returns the user that is doing the hijacking of another user.
     """
     try:
-        user_id = context['request'].session['hijack_history'][0]
+        user_id = context["request"].session["hijack_history"][0]
 
         return User.objects.get(pk=user_id)
 
