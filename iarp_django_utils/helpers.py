@@ -1,3 +1,6 @@
+import pathlib
+
+from django.core.files.storage import default_storage
 from iarp_django_utils.app_settings import app_settings
 
 
@@ -70,3 +73,15 @@ def get_name_name_for_queryset_filter():
 def get_param_name_for_queryset_filter(key: str):
     val = getattr(app_settings, f"SETTINGS_CASE_SENSITIVE_{key.upper()}")
     return key if val else f"{key}__iexact"
+
+
+def clean_empty_parent_directories(directory: pathlib.Path, depth: int, raise_on_error=False):
+
+    for x in range(depth):
+        try:
+            default_storage.delete(str(directory))
+        except OSError:
+            if raise_on_error:
+                raise
+
+        directory = directory.parent
