@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "iarp_django_utils"
 description = "A personal collection of common django utilities used in various projects."
-version = "2025.5.29"
+version = "2025.6.11"
 requires-python = ">= 3.0"
 readme = "readme.rst"
 keywords = ["django", "utilities"]

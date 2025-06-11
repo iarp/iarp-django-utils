@@ -76,6 +76,7 @@ def get_param_name_for_queryset_filter(key: str):
 
 
 def clean_empty_parent_directories(directory: pathlib.Path, depth: int, raise_on_error=False):
+    directory = pathlib.Path(directory)
 
     for x in range(depth):
         try:
@@ -85,3 +86,11 @@ def clean_empty_parent_directories(directory: pathlib.Path, depth: int, raise_on
                 raise
 
         directory = directory.parent
+
+
+def clean_file_empty_parent_directories(filepath: pathlib.Path, depth: int, raise_on_error=False):
+    clean_empty_parent_directories(
+        directory=pathlib.Path(filepath).parent,
+        depth=depth,
+        raise_on_error=raise_on_error,
+    )
