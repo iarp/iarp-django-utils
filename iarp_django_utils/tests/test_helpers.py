@@ -1,8 +1,15 @@
+import pathlib
+
+from unittest.mock import call, patch
+
+from django.core.files.base import ContentFile
+from django.core.files.storage import InMemoryStorage
 from django.test import TestCase
 from django.test.utils import override_settings
 from django.utils import timezone
 
 from iarp_django_utils.helpers import (
+    delete_tree_using_storage,
     get_app_name_for_queryset_filter,
     get_name_name_for_queryset_filter,
     only_save_changed_data,
@@ -83,3 +90,53 @@ class HelperTests(TestCase):
     def test_name_name_queryset_filter_returns_case_insensitive(self):
         val = get_name_name_for_queryset_filter()
         self.assertEqual('name__iexact', val)
+
+    @patch("django.core.files.storage.InMemoryStorage.delete")
+    def test_delete_tree_using_storage_returns_when_directory_does_not_exist(self, mock_delete):
+        storage = InMemoryStorage()
+
+        path = pathlib.Path("cache/inmem/")
+
+        delete_tree_using_storage(
+            path=path,
+            delete_root=True,
+            storage=storage,
+        )
+
+        mock_delete.assert_not_called()
+
+    @patch("django.core.files.storage.InMemoryStorage.delete")
+    def test_delete_tree_using_storage_deletes_file_and_root(self, mock_delete):
+        storage = InMemoryStorage()
+
+        path = pathlib.Path("cache/inmem")
+
+        storage.save(path / "touched", ContentFile("test"))
+        storage.save(path / "touched2", ContentFile("test"))
+
+        delete_tree_using_storage(
+            path=path,
+            delete_root=True,
+            storage=storage,
+        )
+
+        mock_delete.assert_has_calls([
+            call(path / "touched"),
+            call(path / "touched2"),
+            call(path),
+        ])
+
+    @patch("django.core.files.storage.InMemoryStorage.delete")
+    def test_delete_tree_using_storage_deletes_file_and_keeps_root(self, mock_delete):
+        storage = InMemoryStorage()
+
+        path = pathlib.Path("cache/inmem")
+
+        storage.save(path / "touched", ContentFile("test"))
+
+        delete_tree_using_storage(
+            path=path,
+            storage=storage,
+        )
+
+        mock_delete.assert_called_once_with(path / "touched")

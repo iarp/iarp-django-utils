@@ -1,7 +1,12 @@
+import logging
 import pathlib
 
 from django.core.files.storage import default_storage
+
 from iarp_django_utils.app_settings import app_settings
+
+
+log = logging.getLogger(__name__)
 
 
 def only_save_changed_data(obj, obj_data: dict, not_these_fields=None, not_these_fields_startswith=None, save=True):
@@ -94,3 +99,29 @@ def clean_file_empty_parent_directories(filepath: pathlib.Path, depth: int, rais
         depth=depth,
         raise_on_error=raise_on_error,
     )
+
+
+def delete_tree_using_storage(path, delete_root=False, storage=default_storage):
+    log.info(f"Checking supplied path for files and directories: {path=}")
+    try:
+        dirs, files = storage.listdir(path)
+    except OSError:
+        log.info(f"Path supplied does not exist {path=}")
+        return
+
+    log.debug(f"{path=} {dirs=} {files=}")
+
+    for d in dirs:
+        subdir = pathlib.Path(f"{path}/{d}" if path else d)
+        delete_tree_using_storage(subdir)
+        log.info(f"directory found in path, deleting {subdir=}")
+        storage.delete(subdir)  # remove the directory
+
+    for f in files:
+        file = pathlib.Path(f"{path}/{f}" if path else f)
+        log.info(f"File found in path, deleting {file=}")
+        storage.delete(file)
+
+    if delete_root:
+        log.info(f"Remove root path {path=}")
+        storage.delete(path)
